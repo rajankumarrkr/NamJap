@@ -68,10 +68,10 @@ const ResetOptions = () => {
     <div className="space-y-4">
       <div
         onClick={() => handleResetClick('today')}
-        className="glass-card rounded-3xl p-5 flex items-center justify-between group cursor-pointer hover:bg-orange-50/50 transition-colors"
+        className="glass-card rounded-3xl p-5 flex items-center justify-between group cursor-pointer hover:bg-saffron-50 dark:hover:bg-saffron-900/10 transition-colors"
       >
         <div className="flex items-center gap-4">
-          <div className="w-10 h-10 rounded-2xl bg-orange-500/10 text-orange-500 flex items-center justify-center group-hover:scale-110 transition-transform">
+          <div className="w-10 h-10 rounded-2xl bg-saffron-500/10 text-saffron-500 flex items-center justify-center group-hover:scale-110 transition-transform">
             <FaTrash className="text-sm" />
           </div>
           <div>
@@ -83,7 +83,7 @@ const ResetOptions = () => {
 
       <div
         onClick={() => handleResetClick('all')}
-        className="glass-card rounded-3xl p-5 flex items-center justify-between group cursor-pointer hover:bg-rose-50/50 transition-colors"
+        className="glass-card rounded-3xl p-5 flex items-center justify-between group cursor-pointer hover:bg-rose-50 dark:hover:bg-rose-900/10 transition-colors"
       >
         <div className="flex items-center gap-4">
           <div className="w-10 h-10 rounded-2xl bg-rose-500/10 text-rose-500 flex items-center justify-center group-hover:scale-110 transition-transform">
@@ -91,7 +91,7 @@ const ResetOptions = () => {
           </div>
           <div>
             <p className="text-gray-800 dark:text-white font-bold text-sm">Wipe History</p>
-            <p className="text-[10px] text-gray-400 font-bold uppercase tracking-widest text-rose-400">Clear all records</p>
+            <p className="text-[10px] text-rose-400 font-bold uppercase tracking-widest">Clear all records</p>
           </div>
         </div>
       </div>

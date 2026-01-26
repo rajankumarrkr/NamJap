@@ -42,14 +42,16 @@ const ResetButton = ({ onReset, disabled }) => {
   }
 
   return (
-    <div className="px-6 pb-2">
+    <div className="px-6 pb-4">
       <button
         onClick={() => setShowConfirm(true)}
         disabled={disabled}
-        className="w-full glass-btn py-4 rounded-2xl text-gray-500 dark:text-gray-400 font-bold flex items-center justify-center gap-3 hover:text-red-500/80 hover:bg-red-50 dark:hover:bg-red-900/10 transition-colors"
+        className="w-full glass-card py-4 rounded-2xl text-gray-500 dark:text-gray-400 font-bold flex items-center justify-center gap-3 border border-gray-200/50 dark:border-gray-700/30 hover:text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-900/10 transition-all active:scale-95 shadow-sm"
       >
-        <FaUndoAlt className="text-sm opacity-50" />
-        <span className="text-xs uppercase tracking-widest">Reset Today's Count</span>
+        <div className="w-8 h-8 rounded-xl bg-orange-500/10 text-orange-500 flex items-center justify-center">
+          <FaUndoAlt className="text-sm" />
+        </div>
+        <span className="text-[10px] uppercase tracking-[0.2em] font-black">Reset Today's Count</span>
       </button>
     </div>
   );
