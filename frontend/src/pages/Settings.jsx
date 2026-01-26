@@ -2,6 +2,7 @@ import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import ThemeToggle from '../components/Settings/ThemeToggle';
 import ResetOptions from '../components/Settings/ResetOptions';
+import ShareOptions from '../components/Settings/ShareOptions';
 import { FaSignOutAlt, FaUser, FaInfoCircle } from 'react-icons/fa';
 
 const Settings = () => {
@@ -63,6 +64,7 @@ const Settings = () => {
           </div>
 
           <ResetOptions />
+          <ShareOptions />
         </div>
 
         {/* Logout Section */}

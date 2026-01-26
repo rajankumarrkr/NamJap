@@ -6,6 +6,7 @@ import {
   getStreak,
   getChartData,
   getStatsSummary,
+  getLeaderboard,
 } from '../controllers/statsController.js';
 import { protect } from '../middleware/auth.js';
 
@@ -17,5 +18,6 @@ router.get('/highest', protect, getHighestCount);
 router.get('/streak', protect, getStreak);
 router.get('/chart', protect, getChartData);
 router.get('/summary', protect, getStatsSummary);
+router.get('/leaderboard', protect, getLeaderboard);
 
 export default router;

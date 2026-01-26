@@ -217,3 +217,50 @@ export const getStatsSummary = async (req, res) => {
     res.status(500).json({ message: 'Error fetching stats summary' });
   }
 };
+
+// @desc    Get leaderboard
+// @route   GET /api/stats/leaderboard
+// @access  Private
+export const getLeaderboard = async (req, res) => {
+  try {
+    const leaderboard = await Count.aggregate([
+      {
+        $group: {
+          _id: '$userId',
+          totalCount: { $sum: '$count' },
+        },
+      },
+      { $sort: { totalCount: -1 } },
+      { $limit: 20 },
+      {
+        $lookup: {
+          from: 'users',
+          localField: '_id',
+          foreignField: '_id',
+          as: 'user',
+        },
+      },
+      { $unwind: '$user' },
+      {
+        $project: {
+          _id: 1,
+          totalCount: 1,
+          mobile: '$user.mobile',
+        },
+      },
+    ]);
+
+    // Mask mobile numbers for privacy
+    const maskedLeaderboard = leaderboard.map((entry) => ({
+      ...entry,
+      mobile: entry.mobile
+        ? `${entry.mobile.substring(0, 2)}******${entry.mobile.substring(8)}`
+        : 'Anonymous',
+    }));
+
+    res.json(maskedLeaderboard);
+  } catch (error) {
+    console.error('Get Leaderboard Error:', error);
+    res.status(500).json({ message: 'Error fetching leaderboard' });
+  }
+};

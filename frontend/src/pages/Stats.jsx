@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import StatsCards from '../components/Stats/StatsCards';
 import Chart from '../components/Stats/Chart';
+import Leaderboard from '../components/Stats/Leaderboard';
 import axiosInstance from '../api/axios';
 
 const Stats = () => {
@@ -11,12 +12,15 @@ const Stats = () => {
     streak: 0,
   });
   const [chartData, setChartData] = useState([]);
+  const [leaderboardData, setLeaderboardData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [chartLoading, setChartLoading] = useState(true);
+  const [leaderboardLoading, setLeaderboardLoading] = useState(true);
 
   useEffect(() => {
     fetchStats();
     fetchChartData();
+    fetchLeaderboard();
   }, []);
 
   const fetchStats = async () => {
@@ -41,8 +45,19 @@ const Stats = () => {
     }
   };
 
+  const fetchLeaderboard = async () => {
+    try {
+      const response = await axiosInstance.get('/stats/leaderboard');
+      setLeaderboardData(response.data);
+    } catch (error) {
+      console.error('Error fetching leaderboard:', error);
+    } finally {
+      setLeaderboardLoading(false);
+    }
+  };
+
   return (
-    <div className="max-w-md mx-auto">
+    <div className="max-w-md mx-auto pb-24">
       {/* Header */}
       <div className="mb-8 px-2 animate-float">
         <h1 className="text-3xl font-black text-gray-900 dark:text-white tracking-tight mb-1">
@@ -60,6 +75,11 @@ const Stats = () => {
         {/* Chart Section */}
         <div className="px-2">
           <Chart data={chartData} loading={chartLoading} />
+        </div>
+
+        {/* Leaderboard Section */}
+        <div className="px-2">
+          <Leaderboard data={leaderboardData} loading={leaderboardLoading} />
         </div>
       </div>
     </div>

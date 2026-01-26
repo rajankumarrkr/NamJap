@@ -3,6 +3,7 @@ import { AuthProvider } from './context/AuthContext';
 import ProtectedRoute from './components/ProtectedRoute';
 import Layout from './components/Layout/Layout';
 import InstallPrompt from './components/InstallPrompt';
+import { Toaster } from 'react-hot-toast';
 
 // Pages
 import Home from './pages/Home';
@@ -18,6 +19,7 @@ function App() {
       <AuthProvider>
         <div className="app-container">
           <InstallPrompt />
+          <Toaster position="top-center" reverseOrder={false} />
           <Routes>
             {/* Public Routes */}
             <Route path="/login" element={<LoginPage />} />
