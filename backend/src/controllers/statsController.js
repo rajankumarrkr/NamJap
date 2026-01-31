@@ -1,4 +1,5 @@
 import Count from '../models/Count.js';
+import { getTodayDate, getISTDate } from '../utils/dateUtils.js';
 
 // @desc    Get weekly stats
 // @route   GET /api/stats/weekly
@@ -10,7 +11,7 @@ export const getWeeklyStats = async (req, res) => {
     const weekStart = new Date(today);
     weekStart.setDate(today.getDate() - 6); // Last 7 days
 
-    const weekStartStr = weekStart.toISOString().split('T')[0];
+    const weekStartStr = getISTDate(weekStart);
 
     const result = await Count.aggregate([
       {
@@ -45,7 +46,7 @@ export const getMonthlyStats = async (req, res) => {
     const today = new Date();
     const monthStart = new Date(today.getFullYear(), today.getMonth(), 1);
 
-    const monthStartStr = monthStart.toISOString().split('T')[0];
+    const monthStartStr = getISTDate(monthStart);
 
     const result = await Count.aggregate([
       {
@@ -102,7 +103,7 @@ export const getStreak = async (req, res) => {
 
     // Check backwards from today
     while (true) {
-      const dateStr = checkDate.toISOString().split('T')[0];
+      const dateStr = getISTDate(checkDate);
       const record = await Count.findOne({ userId, date: dateStr });
 
       if (record && record.count > 0) {
@@ -134,7 +135,7 @@ export const getChartData = async (req, res) => {
 
     const records = await Count.find({
       userId,
-      date: { $gte: startDate.toISOString().split('T')[0] },
+      date: { $gte: getISTDate(startDate) },
     }).sort({ date: 1 });
 
     // Create array with all dates (fill missing dates with 0)
@@ -142,7 +143,7 @@ export const getChartData = async (req, res) => {
     for (let i = 0; i < days; i++) {
       const date = new Date(startDate);
       date.setDate(startDate.getDate() + i);
-      const dateStr = date.toISOString().split('T')[0];
+      const dateStr = getISTDate(date);
 
       const record = records.find((r) => r.date === dateStr);
       chartData.push({
@@ -169,7 +170,7 @@ export const getStatsSummary = async (req, res) => {
     // Weekly
     const weekStart = new Date(today);
     weekStart.setDate(today.getDate() - 6);
-    const weekStartStr = weekStart.toISOString().split('T')[0];
+    const weekStartStr = getISTDate(weekStart);
 
     const weekResult = await Count.aggregate([
       { $match: { userId, date: { $gte: weekStartStr } } },
@@ -179,7 +180,7 @@ export const getStatsSummary = async (req, res) => {
 
     // Monthly
     const monthStart = new Date(today.getFullYear(), today.getMonth(), 1);
-    const monthStartStr = monthStart.toISOString().split('T')[0];
+    const monthStartStr = getISTDate(monthStart);
 
     const monthResult = await Count.aggregate([
       { $match: { userId, date: { $gte: monthStartStr } } },
@@ -196,7 +197,7 @@ export const getStatsSummary = async (req, res) => {
     let streak = 0;
     let checkDate = new Date(today);
     while (true) {
-      const dateStr = checkDate.toISOString().split('T')[0];
+      const dateStr = getISTDate(checkDate);
       const record = await Count.findOne({ userId, date: dateStr });
       if (record && record.count > 0) {
         streak++;
